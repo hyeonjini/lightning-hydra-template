@@ -5,6 +5,7 @@ from pytorch_lightning import LightningDataModule
 from torch.utils.data import ConcatDataset, DataLoader, Dataset, random_split
 from torchvision.datasets import CIFAR10
 
+
 class CIFAR10DataModule(LightningDataModule):
     
     def __init__(
@@ -27,10 +28,9 @@ class CIFAR10DataModule(LightningDataModule):
         self.data_val: Optional[Dataset] = None
         self.data_test: Optional[Dataset] = None
 
-    
     @property
     def num_classes(self):
-        pass
+        return 10
 
     def prepare_data(self) -> None:
         CIFAR10(self.hparams.data_dir, train=True, download=True)
@@ -38,8 +38,6 @@ class CIFAR10DataModule(LightningDataModule):
 
     
     def setup(self, stage: Optional[str] = None) -> None:
-        pass
-
         if not self.data_train and not self.data_val and not self.data_test:
             trainset = CIFAR10(self.hparams.data_dir, train=True, transform=self.transforms)
             testset = CIFAR10(self.hparams.data_dir, train=False, transform=self.transforms)
